@@ -6,7 +6,6 @@ import {Observable} from 'rxjs'
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
-  providers: [ApiService],
 })
 export class AppComponent {
   title = 'chat-frontend'
