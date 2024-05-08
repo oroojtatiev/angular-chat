@@ -4,7 +4,7 @@ import {PrivateRoutingModule} from './private-routing.module'
 @NgModule({
   declarations: [],
   imports: [
-    PrivateRoutingModule
-  ]
+    PrivateRoutingModule,
+  ],
 })
 export class PrivateModule {}
