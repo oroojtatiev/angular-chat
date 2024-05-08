@@ -1,6 +1,7 @@
 import {Component} from '@angular/core'
-import {ApiService, Test} from './services/api.service'
+import {MatSnackBar} from '@angular/material/snack-bar'
 import {Observable} from 'rxjs'
+import {ApiService, Test} from './services/api.service'
 
 @Component({
   selector: 'app-root',
@@ -8,8 +9,10 @@ import {Observable} from 'rxjs'
   styleUrl: './app.component.scss',
 })
 export class AppComponent {
-  title = 'chat-frontend'
   testValue: Observable<Test> = this.api.getTest()
 
-  constructor(private api: ApiService) {}
+  constructor(
+    private api: ApiService,
+    private _snackBar: MatSnackBar,
+  ) {}
 }
