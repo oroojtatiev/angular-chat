@@ -1,1 +1,50 @@
-<p>register works!</p>
+<p>Register page</p>
+
+<div class="container">
+  <div>
+    <div class="login">
+      <a [routerLink]="['../login']" mat-raised-button>Go to login page</a>
+    </div>
+
+    <div>
+      <mat-card>
+        <mat-card-content>
+          <mat-card-title>Register</mat-card-title>
+
+          <form [formGroup]="form" (ngSubmit)="register()">
+            <mat-form-field>
+              <mat-label>Email</mat-label>
+              <input type="email" matInput placeholder="Email" formControlName="email"/>
+              <mat-error *ngIf="email.touched && email.hasError('required')">Email is required</mat-error>
+              <mat-error *ngIf="email.touched && email.hasError('email')">Email must be valid</mat-error>
+            </mat-form-field>
+
+            <mat-form-field>
+              <mat-label>Username</mat-label>
+              <input type="text" matInput placeholder="Username" formControlName="username"/>
+              <mat-error *ngIf="username.touched && username.hasError('required')">Username is required</mat-error>
+            </mat-form-field>
+
+            <mat-form-field>
+              <mat-label>Password</mat-label>
+              <input type="password" matInput placeholder="Password" formControlName="password"/>
+              <mat-error *ngIf="password.touched && password.hasError('required')">Password is required</mat-error>
+            </mat-form-field>
+
+            <mat-form-field>
+              <mat-label>Password confirmation</mat-label>
+              <input type="password" matInput placeholder="Password confirmation" formControlName="passwordConfirm"/>
+              <mat-error *ngIf="passwordConfirm.touched && form.hasError('passwordNotMatching')">
+                Password confirmation is required
+              </mat-error>
+            </mat-form-field>
+          </form>
+
+          <mat-card-actions>
+            <button type="submit" [disabled]="!form.valid" mat-raised-button color="primary">Register</button>
+          </mat-card-actions>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </div>
+</div>
