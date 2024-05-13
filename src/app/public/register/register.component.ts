@@ -1,12 +1,14 @@
 import {Component} from '@angular/core'
 import {FormGroup, FormControl, Validators, ReactiveFormsModule} from '@angular/forms'
-import {RouterLink} from '@angular/router'
+import {Router, RouterLink} from '@angular/router'
 import {MatAnchor, MatButton} from '@angular/material/button'
 import {MatCard, MatCardActions, MatCardContent, MatCardTitle} from '@angular/material/card'
 import {MatError, MatFormField, MatLabel} from '@angular/material/form-field'
 import {MatInput} from '@angular/material/input'
 import {CustomValidators} from '../../helpers/validation'
 import {CommonModule} from '@angular/common'
+import {UserService} from '../services/user.service'
+import {tap} from 'rxjs'
 
 @Component({
   selector: 'app-register',
@@ -30,14 +32,17 @@ import {CommonModule} from '@angular/common'
   styleUrl: './register.component.scss',
 })
 export class RegisterComponent {
-  constructor() {}
+  constructor(
+    private userService: UserService,
+    private router: Router,
+  ) {}
 
   form: FormGroup = new FormGroup(
     {
       email: new FormControl('', [Validators.required, Validators.email]),
       username: new FormControl('', [Validators.required]),
       password: new FormControl('', [Validators.required]),
-      passwordConfirm: new FormControl('', [Validators.required, CustomValidators.validatePassword]),
+      passwordConfirm: new FormControl('', [Validators.required]),
     },
     {validators: CustomValidators.validatePassword}
   )
@@ -58,5 +63,16 @@ export class RegisterComponent {
     return this.form.get('passwordConfirm') as FormControl
   }
 
-  register() {}
+  async register() {
+    if (!this.form.valid) {
+      return
+    }
+
+    this.userService
+      .create(this.form.value)
+      .pipe(
+        tap(() => this.router.navigate(['../login']))
+      )
+      .subscribe()
+  }
 }

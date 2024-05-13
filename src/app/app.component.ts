@@ -1,5 +1,4 @@
 import {Component} from '@angular/core'
-import {MatSnackBar} from '@angular/material/snack-bar'
 import {Observable} from 'rxjs'
 import {ApiService, Test} from './services/api.service'
 
@@ -12,6 +11,5 @@ export class AppComponent {
 
   constructor(
     private api: ApiService,
-    private _snackBar: MatSnackBar,
   ) {}
 }

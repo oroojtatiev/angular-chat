@@ -27,3 +27,13 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
     }
   }
 }
+
+.snackbar {
+  &__info {
+    background: royalblue;
+  }
+
+  &__error {
+    background: lightcoral;
+  }
+}
