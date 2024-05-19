@@ -7,6 +7,7 @@ import {MatFormFieldModule} from '@angular/material/form-field'
 import {MatInput} from '@angular/material/input'
 import {AppRoutingModule} from './app-routing.module'
 import {AppComponent} from './app.component'
+import {JwtModule} from '@auth0/angular-jwt'
 
 @NgModule({
   declarations: [
@@ -15,6 +16,13 @@ import {AppComponent} from './app.component'
   imports: [
     BrowserModule,
     CommonModule,
+    JwtModule.forRoot({
+      config: {
+        tokenGetter: () => localStorage.getItem('access_token'),
+        // allowedDomains: ["example.com"],
+        // disallowedRoutes: ["http://example.com/examplebadroute/"],
+      },
+    }),
     AppRoutingModule,
     HttpClientModule,
     BrowserAnimationsModule,

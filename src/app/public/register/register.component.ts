@@ -7,8 +7,8 @@ import {MatError, MatFormField, MatLabel} from '@angular/material/form-field'
 import {MatInput} from '@angular/material/input'
 import {CustomValidators} from '../../helpers/validation'
 import {CommonModule} from '@angular/common'
-import {UserService} from '../services/user.service'
 import {tap} from 'rxjs'
+import {ApiService} from '../../services/api.service'
 
 @Component({
   selector: 'app-register',
@@ -29,11 +29,10 @@ import {tap} from 'rxjs'
     MatLabel,
   ],
   templateUrl: './register.component.html',
-  styleUrl: './register.component.scss',
 })
 export class RegisterComponent {
   constructor(
-    private userService: UserService,
+    private apiService: ApiService,
     private router: Router,
   ) {}
 
@@ -68,7 +67,7 @@ export class RegisterComponent {
       return
     }
 
-    this.userService
+    this.apiService
       .create(this.form.value)
       .pipe(
         tap(() => this.router.navigate(['../login']))
