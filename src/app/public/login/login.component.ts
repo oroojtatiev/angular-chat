@@ -6,7 +6,7 @@ import {MatCard, MatCardActions, MatCardContent, MatCardTitle} from '@angular/ma
 import {MatError, MatFormField, MatLabel} from '@angular/material/form-field'
 import {MatInput} from '@angular/material/input'
 import {NgIf} from '@angular/common'
-import {tap} from 'rxjs'
+import {catchError, tap, throwError} from 'rxjs'
 import {ApiService} from '../../services/api.service'
 
 @Component({
@@ -56,7 +56,10 @@ export class LoginComponent {
     this.apiService
       .login(this.form.value)
       .pipe(
-        tap(() => this.router.navigate(['../../private/dashboard']))
+        tap(() => this.router.navigate(['../../private/dashboard'])),
+        catchError(r => {
+          return throwError(() => r)
+        })
       )
       .subscribe()
   }

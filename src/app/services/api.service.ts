@@ -15,7 +15,7 @@ const username = localStorage.getItem('username')
   providedIn: 'root'
 })
 export class ApiService {
-  private username = new BehaviorSubject<string | null>(username)
+  private username$ = new BehaviorSubject<string | null>(username)
 
   constructor(
     private readonly http: HttpClient,
@@ -23,15 +23,24 @@ export class ApiService {
     private readonly jwtHelper: JwtHelperService,
   ) {}
 
-  getTest(): Observable<Test> {
-    return this.http.get<Test>('/api')
-    // return new Observable<Test>(subscriber => {
-    //   this.http.get<Test>('/api')
-    //     .subscribe(data => {
-    //       console.log(11, data)
-    //       return subscriber.next(data)
-    //     })
-    // })
+  getTest(): Observable<string> {
+    /**
+     * variant 1
+     * */
+    // return this.http.get<Test>('/api')
+    //   .pipe(
+    //     map(r => r.title)
+    //   )
+
+    /**
+     * variant 2
+     * */
+    return new Observable<string>(subscriber => {
+      this.http.get<Test>('/api')
+        .subscribe(data => {
+          return subscriber.next(data.title)
+        })
+    })
   }
 
   create(user: IUser): Observable<IResponse<IUser>> {
@@ -54,11 +63,11 @@ export class ApiService {
       .post<IResponse<string>>('/api/auth', data)
       .pipe(
         tap(res => {
-          const {username} = this.jwtHelper.decodeToken(res.data)
-          this.username.next(username)
+          const decoded = this.jwtHelper.decodeToken(res.data)
+          this.username$.next(decoded.username)
 
           localStorage.setItem('access_token', res.data)
-          localStorage.setItem('username',username)
+          localStorage.setItem('username', decoded.username)
 
           this.snackbar.info(`Welcome back, ${data.email}`)
         }),
@@ -73,6 +82,6 @@ export class ApiService {
   }
 
   getUsername(): Observable<string | null> {
-    return this.username.asObservable()
+    return this.username$.pipe()
   }
 }

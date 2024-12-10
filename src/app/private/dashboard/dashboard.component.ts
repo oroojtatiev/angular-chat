@@ -1,11 +1,15 @@
-import {Component, Signal} from '@angular/core'
-import {toSignal} from '@angular/core/rxjs-interop'
+import {Component} from '@angular/core'
 import {ApiService} from '../../services/api.service'
+import {Observable} from 'rxjs'
+import {AsyncPipe, JsonPipe} from '@angular/common'
 
 @Component({
-  imports: [],
-  selector: 'app-dashboard',
   standalone: true,
+  imports: [
+    AsyncPipe,
+    JsonPipe,
+  ],
+  selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
 })
 export class DashboardComponent {
@@ -13,5 +17,6 @@ export class DashboardComponent {
     private readonly apiService: ApiService,
   ) {}
 
-  username: Signal<string | null> = toSignal(this.apiService.getUsername(), {initialValue: null})
+  // username: Signal<string | null> = toSignal(this.apiService.getUsername(), {initialValue: null})
+  username: Observable<string | null> = this.apiService.getUsername()
 }

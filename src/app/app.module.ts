@@ -3,19 +3,21 @@ import {CommonModule} from '@angular/common'
 import {HttpClientModule} from '@angular/common/http'
 import {BrowserModule} from '@angular/platform-browser'
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations'
-import {MatFormFieldModule} from '@angular/material/form-field'
-import {MatInput} from '@angular/material/input'
+import {JwtModule} from '@auth0/angular-jwt'
 import {AppRoutingModule} from './app-routing.module'
 import {AppComponent} from './app.component'
-import {JwtModule} from '@auth0/angular-jwt'
+
+// oroojtatiev@gmail.com password: 12345
 
 @NgModule({
   declarations: [
     AppComponent,
   ],
   imports: [
-    BrowserModule,
     CommonModule,
+    BrowserModule,
+    BrowserAnimationsModule,
+    HttpClientModule,
     JwtModule.forRoot({
       config: {
         tokenGetter: () => localStorage.getItem('access_token'),
@@ -24,13 +26,9 @@ import {JwtModule} from '@auth0/angular-jwt'
       },
     }),
     AppRoutingModule,
-    HttpClientModule,
-    BrowserAnimationsModule,
-    MatFormFieldModule,
-    MatInput,
   ],
   providers: [],
-  bootstrap: [AppComponent],
   exports: [],
+  bootstrap: [AppComponent],
 })
 export class AppModule {}

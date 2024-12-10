@@ -7,7 +7,7 @@ import {ApiService, Test} from './services/api.service'
   templateUrl: './app.component.html',
 })
 export class AppComponent {
-  testValue: Observable<Test> = this.api.getTest()
+  testValue: Observable<string> = this.api.getTest()
 
   constructor(
     private api: ApiService,
