@@ -3,11 +3,8 @@ import {HttpClient, HttpErrorResponse} from '@angular/common/http'
 import {BehaviorSubject, catchError, Observable, tap, throwError} from 'rxjs'
 import {SnackbarService} from './snackbar.service'
 import {JwtHelperService} from '@auth0/angular-jwt'
+import {IAPIResponse} from '../../types/api'
 import {ILogin, IResponse, IUser} from '../models/user.interface'
-
-export interface Test {
-  title: string
-}
 
 const username = localStorage.getItem('username')
 
@@ -36,9 +33,9 @@ export class ApiService {
      * variant 2
      * */
     return new Observable<string>(subscriber => {
-      this.http.get<Test>('/api')
-        .subscribe(data => {
-          return subscriber.next(data.title)
+      this.http.get<IAPIResponse<{title: string}>>('/api')
+        .subscribe(r => {
+          return subscriber.next(r.data.title)
         })
     })
   }
